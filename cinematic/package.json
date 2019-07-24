@@ -1,9 +1,9 @@
 {
-  "name": "cinestore",
+  "name": "cinematic",
   "version": "1.0.0",
   "description": "microservice to manage a cinema house",
   "main": "index.js",
-  "repository": "siemah/microservice/cinestore",
+  "repository": "siemah/microservice/cinematic",
   "author": "siemah",
   "license": "MIT",
   "devDependencies": {
