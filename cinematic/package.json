@@ -1,0 +1,16 @@
+{
+  "name": "cinestore",
+  "version": "1.0.0",
+  "description": "microservice to manage a cinema house",
+  "main": "index.js",
+  "repository": "siemah/microservice/cinestore",
+  "author": "siemah",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/mongoose": "^5.5.9",
+    "@types/node": "^12.6.8",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  }
+}

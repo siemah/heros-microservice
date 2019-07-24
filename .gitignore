@@ -1,6 +1,7 @@
 # node modules dir
-threats/node_modules
-heros/node_modules
+heros/node_modules/
+threats/node_modules/
+cinematic/node_modules/
 
 # Logs
 logs
