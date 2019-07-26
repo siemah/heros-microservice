@@ -6,6 +6,11 @@
   "repository": "siemah/microservice/cinematic",
   "author": "siemah",
   "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc -p ."
+  },
   "devDependencies": {
     "@types/express": "^4.17.0",
     "@types/mongoose": "^5.5.9",
