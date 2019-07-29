@@ -1,8 +1,8 @@
 import { Schema, model, Document } from 'mongoose';
 
 export type CustomerDocument = Document & {
-  fullname: String;
-  email: String;
+  fullname: {type:String, require: true, };
+  email: {type:String, require: true, };
 }
 
 const CustomerSchema: any = new Schema(

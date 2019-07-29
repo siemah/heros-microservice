@@ -23,6 +23,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 // handle a routes
 app.get('/customers', Customer.getAllCustomers);
+app.post('/customer', Customer.addNewCustomer);
 
 // connect to db and then launch the server
 app.use((err: any, req: Request, res: Response, next: NextFunction): any => {
