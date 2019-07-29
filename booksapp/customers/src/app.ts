@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 import Customer from './controllers/Customer';
+import { corsConfig } from './config/cors';
 
 // express middlewares configuration 
 let app: Application = express();
@@ -16,6 +17,7 @@ mongoose.connect(
   }
 );
 // setup a middlewares
+app.use(corsConfig);// cors configuration route
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("dev"));
