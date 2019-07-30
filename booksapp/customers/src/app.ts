@@ -9,7 +9,7 @@ import { corsConfig } from './config/cors';
 let app: Application = express();
 // establish a connexion to mongoDB
 mongoose.connect(
-  "mongodb://localhost:27017/customersdb",
+  "mongodb+srv://root:root@cluster0-igjak.mongodb.net/customers?retryWrites=true&w=majority", //"mongodb://localhost:27017/customersdb",
   { useNewUrlParser: true },
   (err: any) => {
     if (err) throw new Error(err);
@@ -19,11 +19,13 @@ mongoose.connect(
 // setup a middlewares
 app.use(corsConfig);// cors configuration route
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 app.use(helmet());
 app.use(morgan("dev"));
 // handle a routes
 app.get('/customers', Customer.getAllCustomers);
 app.post('/customer', Customer.addNewCustomer);
+app.delete('/customer/:id', Customer.removeCustomer)
 
 // connect to db and then launch the server
 app.use((err: any, req: Request, res: Response, next: NextFunction): any => {

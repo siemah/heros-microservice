@@ -50,10 +50,26 @@ class CustomersController {
         email: req.body.email,
       });
       customer = await newCustomer.save();
+      console.log(customer);
+      
     } catch (error) {
       throw new Error(error);
     }
     res.status(203).json(customer)
+  }
+
+  async removeCustomer (req: Request, res: Response) {
+    let customer: any;
+    console.log("params", req.params.id);
+    try {
+      customer = await Customer.findByIdAndRemove(req.params.id);
+    } catch (error) {
+      throw new Error(error);
+    }
+    res.status(203).json({
+      message: "customer has been deleted",
+      customer,
+    })
   }
 
 }
