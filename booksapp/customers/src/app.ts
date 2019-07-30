@@ -26,6 +26,7 @@ app.use(morgan("dev"));
 app.get('/customers', Customer.getAllCustomers);
 app.post('/customer', Customer.addNewCustomer);
 app.delete('/customer/:id', Customer.removeCustomer)
+app.get('/customer/:id', Customer.getCustomer)
 
 // connect to db and then launch the server
 app.use((err: any, req: Request, res: Response, next: NextFunction): any => {
