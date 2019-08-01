@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import axios from "axios";
+import { Request, Response } from "express";
 import OrderModel, { OrderDocument, OrderParams } from "../models/OrderModel";
 
 /**
@@ -30,7 +30,6 @@ class OrdersController {
         }
     }
 
-
     /**
      * create a new order
      * @param req Request
@@ -52,6 +51,11 @@ class OrdersController {
         }
     }
 
+    /**
+     * get the current order details include customer and book data
+     * @param req Request
+     * @param res Response 
+     */
     async getOrder(req: Request, res: Response): Promise<any> {
         let { orderId } = req.params;
         let order;
@@ -75,6 +79,27 @@ class OrdersController {
             } else res.status(404).json({
                 message: "Order not found"
             })
+        } catch (error) {
+            // here we lust handle the error and send an appropriate response or create error handler
+            throw new Error(error)
+        }
+    }
+
+    /**
+     * remove the current order details include customer and book data
+     * @param req Request
+     * @param res Response 
+     */
+    async removeOrder(req: Request, res: Response): Promise<any> {
+        let { orderId } = req.params;
+        let order: OrderDocument|null;
+        // some validarion if there is any
+        try {
+            order = await OrderModel.findOneAndDelete({_id: orderId});
+            console.log(order)
+            res.status(202).json({
+                message: order? 'Order has been deleted' : 'Something went wrong try again later',
+            });
         } catch (error) {
             // here we lust handle the error and send an appropriate response or create error handler
             throw new Error(error)
