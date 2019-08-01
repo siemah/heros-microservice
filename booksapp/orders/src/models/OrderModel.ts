@@ -10,6 +10,7 @@ import { Schema, model, Document } from 'mongoose';
 export interface OrderParams {
     customer: Schema.Types.ObjectId;
     book: Schema.Types.ObjectId;
+    isCanceled: boolean,
     returnAt?: Date;
     dueDate?: Date;
 };
@@ -22,6 +23,7 @@ let OrderSchema = new Schema(
         book: { type: Schema.Types.ObjectId, required: true },
         dueDate: { type: Date, default: Date.now() + 3600 * 1000 * 24 * 7, },
         returnAt: { type: Date, default: null, },
+        isCanceled: { type: Boolean, default: false, },
     }, 
     {
         timestamps: true,
