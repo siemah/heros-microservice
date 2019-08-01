@@ -10,8 +10,8 @@ import { Schema, model, Document } from 'mongoose';
 export interface OrderParams {
     customer: Schema.Types.ObjectId;
     book: Schema.Types.ObjectId;
-    returnAt: Date;
-    dueDate: Date;
+    returnAt?: Date;
+    dueDate?: Date;
 };
 // order document type 
 export type OrderDocument = Document & OrderParams;
@@ -20,8 +20,8 @@ let OrderSchema = new Schema(
     {
         customer: { type: Schema.Types.ObjectId, required: true },
         book: { type: Schema.Types.ObjectId, required: true },
-        dueDate: { type: Date, default: Date.now() + 3600 * 1000 * 24 * 7 },
-        returnAt: { type: Date, },
+        dueDate: { type: Date, default: Date.now() + 3600 * 1000 * 24 * 7, },
+        returnAt: { type: Date, default: null, },
     }, 
     {
         timestamps: true,
