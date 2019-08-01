@@ -55,7 +55,7 @@ class CustomersController {
     } catch (error) {
       throw new Error(error);
     }
-    res.status(203).json(customer)
+    res.status(201).json(customer)
   }
 
   async removeCustomer (req: Request, res: Response) {

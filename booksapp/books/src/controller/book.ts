@@ -42,7 +42,7 @@ export class BookController {
     let _isSaved: BookDocument;
     try {
       _isSaved = await newBook.save();  
-      res.status(203).json(_isSaved);
+      res.status(201).json(_isSaved);
     } catch ({ message, ...error }) {
       console.log("error when saving a new book", error);
       res.status(403).json({
