@@ -7,5 +7,6 @@ import UserController from "../controllers/UserController";
  * @param app Application
  */
 export function routesHandler(app: Application) {
+    app.get('/auth/accounts', UserController.getAllUserAccount);
     app.post('/auth/create', UserController.createUserAccount);
 }

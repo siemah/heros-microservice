@@ -34,6 +34,27 @@ class UserController {
         }
     }
 
+    /**
+     * handle route of retrieving all users accounts
+     * @param req Request
+     * @param res Response
+     * @return Promise<any>
+     */
+    async getAllUserAccount(req: Request, res: Response): Promise<any>{
+        let accounts: Array<UserDocument|null>;
+        // some validation of data and handle errors
+        try {
+            accounts = await User.find({});
+            res.status( accounts.length? 200 : 404).json({
+                length: accounts.length,
+                accounts,
+            });
+        } catch (error) {
+            console.log((error))
+            throw new Error(error);
+        }
+    }
+
 }
 
 export default new UserController;
