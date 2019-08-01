@@ -22,7 +22,8 @@ app.use(helmet());
 app.use(morgan("dev"));
 // handle a routes
 app.get('/orders', OrderController.getAllOrders);
-
+app.post('/order/', OrderController.addOrder);
+app.get('/order/:orderId', OrderController.getOrder);
 // connect to db and then launch the server
 app.use((err: any, req: Request, res: Response, next: NextFunction): any => {
   console.log("__________________");
