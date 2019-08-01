@@ -8,10 +8,10 @@ import { UserDocument, ACCOUNTROLES } from '../types/UserTypes';
  * @see mongoose doc
  */
 let UserSchema: Schema<any> = new Schema({
-    fname: { type: String, required: false, default: null },
+    fname: { type: String, required: false, default: null,  },
     lname: { type: String, required: false, default: null },
-    email: { type: String, required: true, index: true },
-    password: { type: String, required: true },
+    email: { type: String, required: [true, "Email is required"], index: true },
+    password: { type: String, required: [true, "Password is required"] },
     roles: { type: String, required: true, default: 'customer'},
 });
 
