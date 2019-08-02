@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { UserObject, UserDocument, ACCOUNTROLES } from "../types/UserTypes";
+import { UserObject, UserDocument, ACCOUNTROLES, UserCredentials, UserProjection } from "../types/UserTypes";
 import User from "../models/User";
+import { generateJWTToken } from "../utils/TokenGenerator";
 
 /**
  * handle a user auth and requests
@@ -9,7 +10,7 @@ import User from "../models/User";
  * @see mongoose doc
  */
 class UserController {
-    
+    protected test: string = "test var";
     /**
      * handle route of creating a new user account
      * @param req Request
@@ -54,6 +55,36 @@ class UserController {
             throw new Error(error);
         }
     }
+    
+    /**
+     * verify if user is has the right credentials
+     * @param credentials UserCredentials the user credentials sended
+     * @return Promise<any>
+     */
+    protected async verifyUserCredentials(credentials: UserCredentials|null): Promise<any> {
+        if(!credentials || !Object.keys(credentials as object).length) 
+            return { status: 404, message: "Credentials are empty" };
+        try {
+            let projections:UserProjection = {email: 1, password: 1, fname: 1, lname: 1};
+            let user = await User.findOne({ email: credentials.email }, projections);
+            if(!user) 
+                return { status: 404, message: "Account don't exist yet", };
+            else if(user.password !== credentials.password) 
+                return { status: 404, message: "Verify the credentials", };
+            else 
+                return { 
+                    status:200, 
+                    user: { 
+                        id: user._id,
+                        email: user.email, 
+                        fullname: `${user.fname} ${user.lname}`
+                    }, 
+                };
+        } catch (error) {
+            return { status: 400, message: error.message };
+        }
+    }
+    
 
 }
 

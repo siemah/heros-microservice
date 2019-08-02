@@ -23,4 +23,4 @@ export const generateJWTToken = (payload: object, secret:Secret, options: SignOp
     } catch (error) {
         reject(error.message);
     }
-})
+});

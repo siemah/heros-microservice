@@ -7,6 +7,18 @@ import { Document } from "mongoose";
  * @see mongoose doc
  */
 
+// user projection allow to retriece some fields not all fields
+export interface UserProjection {
+    email?:number;
+    password?: number;
+    fname?: number|null;
+    lname?: number|null;
+}
+// user credentials send for login
+export interface UserCredentials {
+    email: string;
+    password: string;
+}
 // user object 
 export interface UserObject {
     email: string;
