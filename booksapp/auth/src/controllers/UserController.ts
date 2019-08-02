@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { UserObject, UserDocument, ACCOUNTROLES, UserCredentials, UserProjection } from "../types/UserTypes";
 import User from "../models/User";
-import { generateJWTToken } from "../utils/tools";
+import { generateJWTToken, passwordHash, genSalt } from "../utils/tools";
 
 /**
  * handle a user auth and incoming requests for authentication
@@ -18,11 +18,16 @@ class UserController {
      * @return Promise<any>
      */
     async createUserAccount(req: Request, res: Response): Promise<any>{
-        let body: UserObject|null = req.body;
+        let body: UserObject = req.body;
         // some validation of data and handle errors
+        if(!body) res.status(400).json({message: "Try to send some required data"});
         try {
+            let salt: string = await genSalt(64);
+            let password: string = await passwordHash(body.password, salt);
             let newUserAccount: UserDocument = new User({
                 ...body, 
+                password: password,
+                salt,
                 roles: ACCOUNTROLES.CUSTOMER 
             } as UserDocument);
             let isCreated = await newUserAccount.save();
