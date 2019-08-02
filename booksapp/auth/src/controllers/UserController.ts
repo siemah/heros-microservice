@@ -84,7 +84,26 @@ class UserController {
             return { status: 400, message: error.message };
         }
     }
-    
+    /**
+     * handle the incoming login requests
+     */
+    login = async (req: Request, res: Response):Promise<any> => {
+        console.log(this.test)
+        let credentials: UserCredentials|null = req.body;
+        if(!Object.keys(credentials as object).length) 
+            return res.status(404).json({message: "Credentials are invalid"});
+        try {
+            let _res = await this.verifyUserCredentials(credentials);
+            console.log("verify credentials -------->", _res)
+            if(_res.status === 200) {
+                let token:string = await generateJWTToken({username: 'siemah'}, "secret")
+                _res.user['token'] = token;
+            }
+            return res.status(_res.status).json(_res);
+        } catch (error) {
+            return res.status(400).json("retry to generate a token ->" + error);
+        }
+    }
 
 }
 
