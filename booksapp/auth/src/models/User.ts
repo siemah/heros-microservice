@@ -12,6 +12,7 @@ let UserSchema: Schema<any> = new Schema({
     lname: { type: String, required: false, default: null },
     email: { type: String, required: [true, "Email is required"], index: true },
     password: { type: String, required: [true, "Password is required"] },
+    salt: { type: String, required: [true, "Salt is forgtten"] },
     roles: { type: String, required: true, default: 'customer'},
 });
 

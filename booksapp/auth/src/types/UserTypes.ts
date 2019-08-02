@@ -23,6 +23,7 @@ export interface UserCredentials {
 export interface UserObject {
     email: string;
     password: string;
+    salt: string;
     fname?: string;
     lname?: string;
     hashPassword?: (password: string) => string;
