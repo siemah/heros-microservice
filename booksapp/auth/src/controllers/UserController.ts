@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { UserObject, UserDocument, ACCOUNTROLES, UserCredentials, UserProjection } from "../types/UserTypes";
 import User from "../models/User";
-import { generateJWTToken } from "../utils/TokenGenerator";
+import { generateJWTToken } from "../utils/tools";
 
 /**
- * handle a user auth and requests
+ * handle a user auth and incoming requests for authentication
  * @author siemah
  * @version 1.0.0
  * @see mongoose doc
