@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { UserObject, UserDocument, ACCOUNTROLES, UserCredentials, UserProjection } from "../types/UserTypes";
 import User from "../models/User";
-import { generateJWTToken, passwordHash, genSalt } from "../utils/tools";
+import { generateJWTToken, passwordHash, genSalt, passwordVerify } from "../utils/tools";
 
 /**
  * handle a user auth and incoming requests for authentication
@@ -70,12 +70,12 @@ class UserController {
         if(!credentials || !Object.keys(credentials as object).length) 
             return { status: 404, message: "Credentials are empty" };
         try {
-            let projections:UserProjection = {email: 1, password: 1, fname: 1, lname: 1};
+            let projections:UserProjection = {email: 1, password: 1, salt: 1, fname: 1, lname: 1};
             let user = await User.findOne({ email: credentials.email }, projections);
             if(!user) 
                 return { status: 404, message: "Account don't exist yet", };
-            else if(user.password !== credentials.password) 
-                return { status: 404, message: "Verify the credentials", };
+            else if( !await passwordVerify(credentials.password, user.password, user.salt) )
+                return { status: 404, message: "Incorrect password", };
             else 
                 return { 
                     status:200, 
@@ -93,7 +93,6 @@ class UserController {
      * handle the incoming login requests
      */
     login = async (req: Request, res: Response):Promise<any> => {
-        console.log(this.test)
         let credentials: UserCredentials|null = req.body;
         if(!Object.keys(credentials as object).length) 
             return res.status(404).json({message: "Credentials are invalid"});
