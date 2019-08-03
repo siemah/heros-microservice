@@ -1,6 +1,6 @@
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import crypto from 'crypto';
-import { GenerateSalt, PasswordHash, PasswordHashOptions, PasswordVerify } from '../types/ToolsTypes';
+import { GenerateSalt, PasswordHash, PasswordHashOptions, PasswordVerify, EncodeJWTToken } from '../types/ToolsTypes';
 /**
  * @author siemah   
  * @version 1.0.0
@@ -13,7 +13,7 @@ import { GenerateSalt, PasswordHash, PasswordHashOptions, PasswordVerify } from 
  * @param secret Secret the secret key 
  * @param options SignOptions list of options 
  */
-export const generateJWTToken = (payload: object, secret:Secret, options: SignOptions={}): Promise<string> => new Promise((resolve, reject ) => {
+export const encodeJWTToken: EncodeJWTToken = (payload, secret, options={}) => new Promise((resolve, reject ) => {
     if(!payload) reject("Payload object is required to generate a valide token");
     if(!secret) reject("Secret key is required to generate a valide token");
     // modify sign options object and add
@@ -28,6 +28,22 @@ export const generateJWTToken = (payload: object, secret:Secret, options: SignOp
         reject(error.message);
     }
 });
+/**
+ * verify if the jwt token is valide and then decode it
+ * @param token string the received token
+ * @param secret string the secret value used to generate a jwt token
+ * @return Promise<string|object> the result of decode
+ * 
+ */
+export const decodeJWTToken = (token:string, secret:string|Buffer): Promise<string|object> => {
+    return new Promise ((resolve, reject) => {
+        if(!token.trim().length) reject('Invalid token');
+        jwt.verify(token, secret, (err, decoded) => {
+            if(err) reject(err.message);
+            resolve(decoded);
+        });
+    })
+}
 
 /**
  * generate a salt

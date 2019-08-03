@@ -1,3 +1,9 @@
+import { Secret, SignOptions } from "jsonwebtoken";
+
+// encode jwt token function shape
+export interface EncodeJWTToken {
+    (payload: object, secret:Secret, options?: SignOptions): Promise<string>
+}
 // generate a salt function
 export interface GenerateSalt {
     (length: number):Promise<string>;
