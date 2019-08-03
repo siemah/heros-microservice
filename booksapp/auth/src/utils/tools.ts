@@ -1,6 +1,6 @@
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import crypto from 'crypto';
-import { GenerateSalt, PasswordHash, PasswordHashOptions, PasswordVerify, EncodeJWTToken } from '../types/ToolsTypes';
+import { GenerateSalt, PasswordHash, PasswordHashOptions, PasswordVerify, EncodeJWTToken, VerifyToken } from '../types/ToolsTypes';
 /**
  * @author siemah   
  * @version 1.0.0
@@ -42,6 +42,38 @@ export const decodeJWTToken = (token:string, secret:string|Buffer): Promise<stri
             if(err) reject(err.message);
             resolve(decoded);
         });
+    })
+}
+/**
+ * verify if the token is valide and not expired sended using authorization header
+ * @param headers Request.headers represent a list of headers in Request object
+ */
+export const verifyToken:VerifyToken = (headers) => {
+    return new Promise(async (resolve, reject) => {
+        if(!headers.authorization) 
+            reject({
+                status: 401,
+                message: "Invalid token",
+            });
+        let authorizationSplited: Array<string> = headers.authorization.split(' ');
+        if(!authorizationSplited.length) 
+            reject ({
+                status: 401,
+                message: "Invalid token",
+            });
+        // maybe check if the type of authorization if Bearer or JWT
+        try {
+            let jwtDecoded = await decodeJWTToken(authorizationSplited[1], process.env.TOKEN_SECRET as string);
+            resolve({
+                status: 202,
+                results: jwtDecoded,
+            })
+        } catch (error) {
+            reject ({
+                status: 401,
+                message: error,
+            });
+        }
     })
 }
 

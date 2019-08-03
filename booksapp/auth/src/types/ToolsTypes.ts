@@ -4,6 +4,9 @@ import { Secret, SignOptions } from "jsonwebtoken";
 export interface EncodeJWTToken {
     (payload: object, secret:Secret, options?: SignOptions): Promise<string>
 }
+export interface VerifyToken {
+    (headers: {authorization: string, [propsName:string]:any}): Promise<any>;
+}
 // generate a salt function
 export interface GenerateSalt {
     (length: number):Promise<string>;
