@@ -1,6 +1,6 @@
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import crypto from 'crypto';
-import { GenerateSalt, PasswordHash } from '../types/ToolsTypes';
+import { GenerateSalt, PasswordHash, PasswordHashOptions, PasswordVerify } from '../types/ToolsTypes';
 /**
  * @author siemah   
  * @version 1.0.0
@@ -40,7 +40,14 @@ export const genSalt: GenerateSalt = (length:number) => new Promise((resolve, re
     resolve(salt);
 });
 
-/**
+// password hash option default value
+export const passwordHashOptions: PasswordHashOptions = {
+    iterations: 1000, 
+    keylen: 60, 
+    digest: 'sha512',
+};
+
+/** 
  * hash the password
  * @param password string the password to hash
  * @param salt string the salt of the hashing
@@ -48,16 +55,34 @@ export const genSalt: GenerateSalt = (length:number) => new Promise((resolve, re
  * @see crypto node native module
  * @return Promise<string>
  */
-export const passwordHash:PasswordHash = (password, salt, options={}) => new Promise((resolve, reject) => {
+export const passwordHash:PasswordHash = (password, salt, options=passwordHashOptions) => new Promise((resolve, reject) => {
     if(!password.trim().length || !salt.trim().length)
         reject("Password and salt are required to hash a hash password");
     crypto.pbkdf2(
         password, salt, 
-        options.iterations || 1000, 
-        options.keylen || 60, 
-        options.digest || 'sha512', 
+        options.iterations, 
+        options.keylen, 
+        options.digest, 
         (err:any, derivedKey: Buffer) => {
             if(err) reject(err.message);
             resolve(derivedKey.toString('hex'));
         });
 });
+
+/**
+ * verify if password is the same as the passwordSaved(in DB)
+ * @param password string sended by user
+ * @param passwordSave string this the password saved in DB
+ * @param salt the salt either saved in DB  
+ */
+export const passwordVerify:PasswordVerify = (password, passwordSave, salt) => {
+    return new Promise((resolve, reject) => {
+        if(!password.trim().length || !salt.trim().length)
+            reject(false);
+        passwordHash(password, salt)
+            .then(passwordHashed => {
+                resolve(passwordHashed === passwordSave);
+            })
+            .catch(err => reject(false));
+    });
+}
