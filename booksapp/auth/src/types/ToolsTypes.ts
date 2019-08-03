@@ -4,9 +4,9 @@ export interface GenerateSalt {
 }
 // hash password options
 export interface PasswordHashOptions {
-    iterations?: number;
-    keylen?: number;
-    digest?: string;
+    iterations: number;
+    keylen: number;
+    digest: string;
 }
 // return object contain 2 key for hashing the password
 export interface PasswordHashReturnToRemove {
@@ -16,4 +16,8 @@ export interface PasswordHashReturnToRemove {
 // password hash function shape
 export interface PasswordHash {
     (password: string, salt: string, options?: PasswordHashOptions):Promise<string>;
+}
+// passwor verify function shape
+export interface PasswordVerify{
+    (password: string, passwordSave: string, salt: string):Promise<boolean>;
 }

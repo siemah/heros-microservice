@@ -11,6 +11,7 @@ import { Document } from "mongoose";
 export interface UserProjection {
     email?:number;
     password?: number;
+    salt?: number;
     fname?: number|null;
     lname?: number|null;
 }
