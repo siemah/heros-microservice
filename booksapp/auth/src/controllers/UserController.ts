@@ -100,8 +100,8 @@ class UserController {
         try {
             let _res = await this.verifyUserCredentials(credentials);
             if(_res.status === 200) {
-                let { email, fullname, id } = _res.user;
-                let token:string = await encodeJWTToken({ email, fullname, id }, process.env.TOKEN_SECRET as string)
+                let { email, fullname, id, roles } = _res.user;
+                let token:string = await encodeJWTToken({ email, fullname, id, roles }, process.env.TOKEN_SECRET as string)
                 _res.user['token'] = token;
             }
             return res.status(_res.status).json(_res);
