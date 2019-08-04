@@ -86,7 +86,7 @@ class UserController {
                     }, 
                 };
         } catch (error) {
-            return { status: 400, message: error.message };
+            return { status: 400, message: error.message ? error.message : "Incorect credentials" };
         }
     }
 
@@ -106,6 +106,7 @@ class UserController {
             }
             return res.status(_res.status).json(_res);
         } catch (error) {
+            console.log(error)
             return res.status(400).json({
                 message: "retry to generate a token ->" + error.message,
             });
@@ -119,7 +120,7 @@ class UserController {
      */
     async getUserRoles (req: Request, res: Response):Promise<any> {
         if( !('email' in req.body && 'roles' in req.body) )
-            res.status(404).json({message: 'User dont exist' });
+            return res.status(404).json({message: 'User dont exist' });
         try {
             let user = await User.find({ 
                 $and: [
