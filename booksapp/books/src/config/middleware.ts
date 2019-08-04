@@ -25,12 +25,14 @@ export default function setupMiddlewares(app: Application): void {
   app.use(helmet());
 };
 
+/**
+ * check if the user has admin roles
+ * @param req Request
+ * @param res Response
+ * @param next NextFunction
+ * @see express router
+ */
 export async function isAdmin(req: Request, res: Response, next: NextFunction) {
-  /**
-   * decode a jwt token 
-   * verify the roles of user
-   * check if has a admin roles
-   */
   try {
     let decode = await verifyToken(req.headers);
     if(decode.status !== 202) 
