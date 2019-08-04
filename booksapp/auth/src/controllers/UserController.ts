@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { UserObject, UserDocument, ACCOUNTROLES, UserCredentials, UserProjection } from "../types/UserTypes";
 import User from "../models/User";
-import { generateJWTToken, passwordHash, genSalt, passwordVerify } from "../utils/tools";
+import { encodeJWTToken, passwordHash, genSalt, passwordVerify, decodeJWTToken } from "../utils/tools";
 
 /**
  * handle a user auth and incoming requests for authentication
@@ -10,7 +10,7 @@ import { generateJWTToken, passwordHash, genSalt, passwordVerify } from "../util
  * @see mongoose doc
  */
 class UserController {
-    protected test: string = "test var";
+    
     /**
      * handle route of creating a new user account
      * @param req Request
@@ -89,6 +89,7 @@ class UserController {
             return { status: 400, message: error.message };
         }
     }
+
     /**
      * handle the incoming login requests
      */
@@ -98,14 +99,33 @@ class UserController {
             return res.status(404).json({message: "Credentials are invalid"});
         try {
             let _res = await this.verifyUserCredentials(credentials);
-            console.log("verify credentials -------->", _res)
             if(_res.status === 200) {
-                let token:string = await generateJWTToken({username: 'siemah'}, "secret")
+                let { email, fullname, id } = _res.user;
+                let token:string = await encodeJWTToken({ email, fullname, id }, process.env.TOKEN_SECRET as string)
                 _res.user['token'] = token;
             }
             return res.status(_res.status).json(_res);
         } catch (error) {
-            return res.status(400).json("retry to generate a token ->" + error);
+            return res.status(400).json({
+                message: "retry to generate a token ->" + error.message,
+            });
+        }
+    }
+
+    /**
+     * get user roles
+     * @param req Request
+     * @param res Response
+     */
+    async getUserRoles (req: Request, res: Response):Promise<any> {
+        try {
+            let user = await User.findOne({ email: req.body.email });
+            if( user ) 
+                res.status(200).json({ roles: user.roles });
+            else
+                res.status(404).json({message: 'User dont exist' });
+        } catch (error) {
+            res.status(404).json({message: 'User dont exist' });
         }
     }
 
