@@ -1,6 +1,10 @@
-import { Application, json, urlencoded } from "express";
-import morgan = require("morgan");
-import helmet = require("helmet");
+import { Application, json, urlencoded, Request, Response, NextFunction } from "express";
+import morgan from "morgan";
+import helmet from "helmet";
+import axios from 'axios';
+import { verifyToken } from "../utils/tools";
+import dotenv from 'dotenv'
+
 
 /**
  * config a middlewares of book service needs
@@ -8,9 +12,37 @@ import helmet = require("helmet");
  * @version 1.0.0
  * @since 28/07/2019
  */
+
+/**
+ * config some middlewares
+ * @param app Application
+ */
 export default function setupMiddlewares(app: Application): void {
+  dotenv.config();
   app.use(json());
   app.use(urlencoded({ extended: true }));
   app.use(morgan('dev'));
   app.use(helmet());
 };
+
+export async function isAdmin(req: Request, res: Response, next: NextFunction) {
+  /**
+   * decode a jwt token 
+   * verify the roles of user
+   * check if has a admin roles
+   */
+  try {
+    let decode = await verifyToken(req.headers);
+    if(decode.status !== 202) 
+      res.status(401).json({ message: "Unauthorized section", decode })
+    else {
+      let checkRoles = await axios.post("http://localhost:3004/auth/verifyroles", {headers: {
+        'Authorization': `JWT ${req.headers.authorization}`
+      }});
+      res.json(checkRoles);
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({ message: "Unauthorized section" });
+  }
+}
