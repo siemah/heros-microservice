@@ -99,8 +99,8 @@ export const passwordHashOptions: PasswordHashOptions = {
  * @return Promise<string>
  */
 export const passwordHash:PasswordHash = (password, salt, options=passwordHashOptions) => new Promise((resolve, reject) => {
-    if(!password.trim().length || !salt.trim().length)
-        reject("Password and salt are required to hash a hash password");
+    if(!password || !salt || !password.trim().length || !salt.trim().length)
+        reject("Password and salt are required ");
     crypto.pbkdf2(
         password, salt, 
         options.iterations, 
@@ -120,7 +120,7 @@ export const passwordHash:PasswordHash = (password, salt, options=passwordHashOp
  */
 export const passwordVerify:PasswordVerify = (password, passwordSave, salt) => {
     return new Promise((resolve, reject) => {
-        if(!password.trim().length || !salt.trim().length)
+        if(!password || !salt || !password.trim().length || !salt.trim().length)
             reject(false);
         passwordHash(password, salt)
             .then(passwordHashed => {
