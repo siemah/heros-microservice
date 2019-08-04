@@ -38,13 +38,16 @@ export async function isAdmin(req: Request, res: Response, next: NextFunction) {
     if(decode.status !== 202) 
       res.status(401).json({ message: "Unauthorized section", decode })
     else {
-      let checkRoles = await axios.post("http://localhost:3004/auth/verifyroles", {headers: {
-        'Authorization': `JWT ${req.headers.authorization}`
-      }});
-      res.json(checkRoles);
+      let { data, status } = await axios.post("http://localhost:3004/auth/verifyroles", {
+        roles: "admin",
+        email: decode.results.email,
+      });
+      if(status === 200) 
+        next();
+      else 
+        res.status(401).json({ message: "Unauthorized section" });
     }
   } catch (error) {
-    console.log(error)
     return res.status(400).json({ message: "Unauthorized section" });
   }
 }

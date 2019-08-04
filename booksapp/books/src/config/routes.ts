@@ -11,7 +11,7 @@ import { isAdmin } from './middleware';
  */
 export default function setupRoutes(app: Application): void {
 
-  app.get('/books', BookController.getAllBooks);
+  app.get('/books', isAdmin, BookController.getAllBooks);
   app.get('/book/:id', BookController.getBook);
   app.post('/book', isAdmin, BookController.createNewBook);
   app.delete('/book/:id', isAdmin, BookController.removeBook);
