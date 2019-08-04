@@ -37,7 +37,7 @@ export const encodeJWTToken: EncodeJWTToken = (payload, secret, options={}) => n
  */
 export const decodeJWTToken = (token:string, secret:string|Buffer): Promise<string|object> => {
     return new Promise ((resolve, reject) => {
-        if(!token.trim().length) reject('Invalid token');
+        if(!token || !token.trim().length) reject('Invalid token');
         jwt.verify(token, secret, (err, decoded) => {
             if(err) reject(err.message);
             resolve(decoded);
@@ -50,12 +50,7 @@ export const decodeJWTToken = (token:string, secret:string|Buffer): Promise<stri
  */
 export const verifyToken:VerifyToken = (headers) => {
     return new Promise(async (resolve, reject) => {
-        if(!headers.authorization) 
-            reject({
-                status: 401,
-                message: "Invalid token",
-            });
-        let authorizationSplited: Array<string> = headers.authorization.split(' ');
+        let authorizationSplited: Array<any> = headers.authorization? headers.authorization.split(' ') : [];
         if(!authorizationSplited.length) 
             reject ({
                 status: 401,

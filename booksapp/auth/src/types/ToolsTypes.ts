@@ -1,11 +1,12 @@
 import { Secret, SignOptions } from "jsonwebtoken";
+import { IncomingHttpHeaders } from "http";
 
 // encode jwt token function shape
 export interface EncodeJWTToken {
     (payload: object, secret:Secret, options?: SignOptions): Promise<string>
 }
 export interface VerifyToken {
-    (headers: {authorization: string, [propsName:string]:any}): Promise<any>;
+    (headers: IncomingHttpHeaders): Promise<any>;
 }
 // generate a salt function
 export interface GenerateSalt {
