@@ -118,10 +118,17 @@ class UserController {
      * @param res Response
      */
     async getUserRoles (req: Request, res: Response):Promise<any> {
+        if( !('email' in req.body && 'roles' in req.body) )
+            res.status(404).json({message: 'User dont exist' });
         try {
-            let user = await User.findOne({ email: req.body.email });
-            if( user ) 
-                res.status(200).json({ roles: user.roles });
+            let user = await User.find({ 
+                $and: [
+                    {email: req.body.email}, 
+                    {roles: req.body.roles},
+                ]
+            });
+            if( user.length ) 
+                res.status(200).json({ roles: user[0].roles });
             else
                 res.status(404).json({message: 'User dont exist' });
         } catch (error) {
