@@ -1,6 +1,6 @@
 import { Application} from 'express';
 import { BookController } from '../controller/book';
-import { isAdmin } from './middleware';
+import { isAdmin, isCustomer } from './middleware';
 
 /**
  * config a routes of book service
@@ -11,8 +11,8 @@ import { isAdmin } from './middleware';
  */
 export default function setupRoutes(app: Application): void {
 
-  app.get('/books', isAdmin, BookController.getAllBooks);
-  app.get('/book/:id', BookController.getBook);
+  app.get('/books', BookController.getAllBooks);
+  app.get('/book/:id', isCustomer, BookController.getBook);
   app.post('/book', isAdmin, BookController.createNewBook);
   app.delete('/book/:id', isAdmin, BookController.removeBook);
 
