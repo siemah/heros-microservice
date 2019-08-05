@@ -50,7 +50,12 @@ class CustomersController {
     if( !fullname || !email ) 
       return res.status(400).json({ message: "Invalid operation" });
     try {
-      // here before create a new customer must check if one is exist using email as index and unique value
+      /**
+       * 1/ verify the user authorization received from request
+       * 2/ must check if one is exist using email as index and unique value
+       * 3/ send request to auth and book services to verify the validity if customer and book by id's
+       * 4/ create a new customer if everything work as expected or render an error response
+       */
       let newCustomer: CustomerDocument = new Customer({
         fullname: fullname,
         email: email,
