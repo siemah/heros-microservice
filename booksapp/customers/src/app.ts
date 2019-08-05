@@ -37,5 +37,5 @@ app.use((err: any, req: Request, res: Response, next: NextFunction): any => {
 });
 // listen to incomming request
 app.listen(3002, () => {
-  console.log("Book service running on port 3002");
+  console.log("Customer service running on port 3002");
 });

@@ -40,22 +40,27 @@ class CustomersController {
    * create a new customer document   
    * @param req request
    * @param res response
+   * @return Promise<any> express route
    */
-  async addNewCustomer(req: Request, res: Response) {
+  async addNewCustomer(req: Request, res: Response): Promise<any> {
     let customer: CustomerDocument;
-    console.log(req.body);
+    let { fullname, email } = req.body
+        ? req.body 
+        : { fullname:null, email:null }; 
+    if( !fullname || !email ) 
+      return res.status(400).json({ message: "Invalid operation" });
     try {
+      // here before create a new customer must check if one is exist using email as index and unique value
       let newCustomer: CustomerDocument = new Customer({
-        fullname: req.body.fullname,
-        email: req.body.email,
+        fullname: fullname,
+        email: email,
       });
       customer = await newCustomer.save();
       console.log(customer);
-      
+      res.status(201).json(customer)
     } catch (error) {
       throw new Error(error);
     }
-    res.status(201).json(customer)
   }
 
   async removeCustomer (req: Request, res: Response) {
