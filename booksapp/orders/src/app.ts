@@ -2,7 +2,9 @@ import express, { Application, Response, Request, NextFunction } from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import dotenv from 'dotenv'
 import OrderController from './controllers/OrderController';
+import { isAdmin, isCustomer } from './config/middleware';
 
 // express middlewares configuration 
 let app: Application = express();
@@ -16,15 +18,16 @@ mongoose.connect(
   }
 );
 // setup a middlewares
+dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(helmet());
 app.use(morgan("dev"));
 // handle a routes
-app.get('/orders', OrderController.getAllOrders);
-app.post('/order/', OrderController.addOrder);
-app.get('/order/:orderId', OrderController.getOrder);
-app.delete('/order/:orderId', OrderController.removeOrder)
+app.get('/orders', isAdmin, OrderController.getAllOrders);
+app.post('/order/', isCustomer, OrderController.addOrder);
+app.get('/order/:orderId', OrderController.getOrder);// we must check if is a user who add the order
+app.delete('/order/:orderId', isAdmin, OrderController.removeOrder);
 // connect to db and then launch the server
 app.use((err: any, req: Request, res: Response, next: NextFunction): any => {
   console.log("__________________");
