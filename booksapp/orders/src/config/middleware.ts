@@ -26,7 +26,7 @@ async function  hasRightRoles(req: Request, res: Response, next: NextFunction, r
           res.status(401).json({ message: "Unauthorized section" });
       }
     } catch (error) {
-      return res.status(400).json({ message: "Unauthorized section" + `${error.message}` });
+      return res.status(400).json({ message: error.message });
     }
 }
 
