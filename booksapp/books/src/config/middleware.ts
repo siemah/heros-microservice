@@ -23,6 +23,12 @@ export default function setupMiddlewares(app: Application): void {
   app.use(urlencoded({ extended: true }));
   app.use(morgan('dev'));
   app.use(helmet());
+  app.use((req: Request, res: Response, next: NextFunction,) => {
+    res.set('Access-Control-Origin-Methods', 'GET');
+    res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.set('Access-Control-Origin-Type', '*');
+    next();
+  })
 };
 
 /**
