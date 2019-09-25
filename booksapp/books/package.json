@@ -25,6 +25,7 @@
     "@types/mongoose": "^5.5.11",
     "@types/morgan": "^1.7.36",
     "dotenv": "^8.0.0",
+    "nodemon": "^1.19.2",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   }
