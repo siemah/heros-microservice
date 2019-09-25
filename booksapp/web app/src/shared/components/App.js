@@ -4,6 +4,7 @@ import routes from './routes/config';
 import PrivateRoute from './routes/PrivateRoute';
 import GuestRoute from './routes/GuestRoute';
 import NoMatch from '../components/pages/NoMatch';
+import HeaderMenu from './widgets/HeaderMenu';
 
 const App = () => {
   const _mainRoutes = routes.map(({ path, component: C, exact, mode = 'none', ...rest }) => {
@@ -18,6 +19,7 @@ const App = () => {
   })
   return (
     <div>
+      <HeaderMenu />
       <Switch>
         {_mainRoutes}
         <Route component={NoMatch} />
