@@ -1,8 +1,9 @@
-import React, { useState, } from 'react';
+import React, { useState, useContext, } from 'react';
 import SEO from '../widgets/SEO';
+import AuthContext from '../context/auth';
 
 const Login = ({ postLogin, }) => {
-  
+  const _auth = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email: null,
     password: null,
@@ -33,6 +34,7 @@ const Login = ({ postLogin, }) => {
         else if ( res.user ) {
           setLoginstate({ loading: false, message: null, });
           // update global state if its context or ..
+          _auth.setAuth({ email: res.user.email, fullname: res.user.fullname, });
         } 
         else 
           setLoginstate({ loading: false, message: 'Something went wrong, try again', });
@@ -60,7 +62,9 @@ const Login = ({ postLogin, }) => {
         </label><br />
           <input name='password' type='password' onChange={_onchange} />
       </div>
-      <button type='submit'>Let me in</button>
+      <button disabled={loginstate.loading} type='submit'>
+        {loginstate.loading? 'Lading ..' : 'Let me in'}
+      </button>
     </form>
   )
 }
