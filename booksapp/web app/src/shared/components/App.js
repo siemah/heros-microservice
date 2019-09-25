@@ -10,11 +10,11 @@ const App = () => {
   const _mainRoutes = routes.map(({ path, component: C, exact, mode = 'none', ...rest }) => {
     switch (mode) {
       case 'private':
-        return <PrivateRoute key={path} {...rest} component={C} />
+        return <PrivateRoute key={path} {...rest} exact={exact} path={path} component={C} />
       case 'guest':
-        return <GuestRoute key={path} {...rest} component={C} />
+        return <GuestRoute key={path} {...rest} exact={exact} path={path} component={C} />
       default:
-        return <Route key={path} exact={exact} path={path} {...rest} component={C} />
+        return <Route key={path} exact={exact} path={path} {...rest} render={props => <C {...rest} {...props}/>} />
     }
   })
   return (
