@@ -1,9 +1,11 @@
+import serialize from 'serialize-javascript';
+
 /**
  * render a html page based on jsx
  * @param {string} markup html tag retrieved fron jsx
  * @param {object} data contain details about app
  */
-export const jsxToHtml = (markup, data) => (`
+export const jsxToHtml = (markup, data={}) => (`
   <!DOCTYPE html>
   <html>
     <head>
