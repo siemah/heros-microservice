@@ -6,7 +6,7 @@ const GuestRoute = ({ isAthenticated = false, component: C, ...rest }) => {
     <Route {...rest} render={
       props =>
         !isAthenticated
-          ? <C {...props} />
+          ? <C {...rest} {...props} />
           : <Redirect to='/home' />
     } />
   )
