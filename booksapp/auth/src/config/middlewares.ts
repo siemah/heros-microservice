@@ -1,7 +1,8 @@
-import { Application, json, urlencoded } from "express";
+import { Application, json, urlencoded, } from "express";
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
+import cors from 'cors';
 /**
  * this some middlewares for express app
  * @author siemah
@@ -12,10 +13,11 @@ import morgan from 'morgan';
  * setup all middlewares
  * @param app Application express instance
  */
-export default function setupMiddlewares (app: Application) {
+export default function setupMiddlewares(app: Application) {
     app.use(json());
     app.use(urlencoded({ extended: true }));
     app.use(morgan("dev"))
     app.use(compression());
     app.use(helmet());
+    app.use(cors())
 }
