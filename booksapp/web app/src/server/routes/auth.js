@@ -13,6 +13,8 @@ authRouter.post(
     else {
       postLogin(endpoints.login, { email, password })
         .then(_res => {
+          if(_res.status === 200) 
+            res.cookie('_auth', _res.user.token);
           res.status(_res.status).json(_res);
         })
         .catch(error => {
