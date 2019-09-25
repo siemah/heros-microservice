@@ -1,4 +1,5 @@
 import React, { useState, } from 'react';
+import SEO from '../widgets/SEO';
 
 const Login = () => {
   
@@ -17,6 +18,7 @@ const Login = () => {
 
   return (
     <form action='#' method='post'>
+      <SEO title='Login To Booksapp Account' />
       <div>
         <label>
           Email
