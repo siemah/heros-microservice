@@ -2,8 +2,7 @@ import express from 'express';
 import React from 'react';
 import { renderToString, } from 'react-dom/server';
 import { StaticRouter, matchPath, } from 'react-router-dom';
-
-import routes from '../shared/components/routes/config';
+import Helmet from 'react-helmet'
 import { jsxToHtml } from './utils/tools';
 import App from '../shared/components/App';
 
@@ -17,7 +16,8 @@ app.get('/*', (req, res) => {
       <App />
     </StaticRouter>
   );
-  res.send(jsxToHtml(_markup));
+  let _helmet = Helmet.renderStatic();
+  res.send(jsxToHtml(_markup, _helmet));
 });
 
 app.listen(3000, () => {
