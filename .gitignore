@@ -2,6 +2,9 @@
 heros/node_modules/
 threats/node_modules/
 cinematic/node_modules/
+# web app files and folders
+booksapp/web app/server.js
+booksapp/web app/public/bundle.js
 
 # Logs
 logs

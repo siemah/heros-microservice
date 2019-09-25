@@ -1,0 +1,33 @@
+{
+  "name": "bookstore",
+  "version": "1.0.0",
+  "description": "web app for books using react universal app (server and client rendering)",
+  "main": "server.js",
+  "repository": "https://github.com/siemah/heros-microservice/tree/master/booksapp/web app",
+  "author": "siemah",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack -w & nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-helmet": "^5.2.1",
+    "react-router-dom": "^5.1.0",
+    "serialize-javascript": "^2.1.0",
+    "webpack": "^4.41.0"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "7",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "nodemon": "^1.19.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
