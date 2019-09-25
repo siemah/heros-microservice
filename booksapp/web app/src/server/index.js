@@ -5,10 +5,11 @@ import { StaticRouter, matchPath, } from 'react-router-dom';
 import Helmet from 'react-helmet'
 import { jsxToHtml } from './utils/tools';
 import App from '../shared/components/App';
+import { configMiddlewares } from './middlewares';
 
 let app = express();
 
-app.use(express.static('public'));
+configMiddlewares(express, app);
 
 app.get('/*', (req, res) => {
   let _markup = renderToString(
