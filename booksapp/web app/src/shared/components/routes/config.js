@@ -1,5 +1,6 @@
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import { postLogin, } from '../../services/auth'
 
 export default [
   {
@@ -12,5 +13,6 @@ export default [
     exact: true,
     mode: 'guest',
     component: Login,
+    postLogin: postLogin
   },
 ];
