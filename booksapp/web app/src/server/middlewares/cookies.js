@@ -16,5 +16,6 @@ export const cookiesParser = function (req, res, next) {
         let [key, val] = trimedVal.split('=');
         return {...acc, [key]: val};
       },{})
+    else req.cookies = {};
   next();
 }
