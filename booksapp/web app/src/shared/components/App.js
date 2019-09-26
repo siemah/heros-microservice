@@ -11,9 +11,8 @@ const MainApp = (props) => {
   // retrieve user data from server or client
   let _userData;
   if(__isBrowser__){
-    let { user } = window.__INITIAL_DATA__ || authContextDefaultValue;
-    _userData = user;
-    delete window.__INITIAL_DATA__;
+    _userData = window.__USER_DATA__ || authContextDefaultValue;
+    delete window.__USER_DATA__;
   } else {
     _userData = props.staticContext.user;
   }
