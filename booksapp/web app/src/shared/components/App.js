@@ -7,7 +7,7 @@ import NoMatch from '../components/pages/NoMatch';
 import HeaderMenu from './widgets/HeaderMenu';
 import { AuthProvider, authContextDefaultValue } from './context/auth';
 
-const App = (props) => {
+const MainApp = (props) => {
   // authentication state of user
   const [auth, setAuth] = useState(authContextDefaultValue);
   // main route include guest & private routes
@@ -34,5 +34,7 @@ const App = (props) => {
     </div>
   )
 }
-
-export default App
+const App = (props) => (
+  <Route {...props} component={MainApp} />
+)
+export default App;
