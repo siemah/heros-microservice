@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState, } from 'react';
+import { NavLink, } from 'react-router-dom';
+import { getDataFromWindowOrContext } from '../../utils/data';
 import SEO from '../widgets/SEO';
 
 const Books = ({ staticContext}) => {
- 
+  // get the books data fetched from server
+  let _books = getDataFromWindowOrContext('books', staticContext);
+  // update state depend on data fetched from servers
+  const [books, setBooks] = useState({
+    data: _books,
+    loading: false,
+  });
   // list of meta tags
   const metas = [
     {
@@ -20,7 +28,6 @@ const Books = ({ staticContext}) => {
       <SEO title='Find any kind of books - Booksapp' metas={metas} />
       <h1>Books list </h1>
       <ul>
-        
       </ul>
     </div>
   )
