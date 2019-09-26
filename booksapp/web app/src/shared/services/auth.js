@@ -6,7 +6,7 @@ import fetch from 'isomorphic-fetch'
  * @param {object} credentials contains auth credentials
  * @return Promise<object|null> 
  */
-export const postLogin = (endpoint, credentials) => {
+export const postLogin = (endpoint, credentials, headers={}) => {
   const encodedURI = encodeURI(endpoint)
 
   return fetch(encodedURI, {
@@ -14,6 +14,7 @@ export const postLogin = (endpoint, credentials) => {
     body: JSON.stringify(credentials),
     headers: {
       'Content-Type': 'application/json',
+      ...headers,
     }
   })
     .then((data) => data.json())
