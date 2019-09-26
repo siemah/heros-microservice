@@ -6,6 +6,7 @@ import Helmet from 'react-helmet'
 import { jsxToHtml } from './utils/tools';
 import App from '../shared/components/App';
 import { configMiddlewares } from './middlewares';
+import User from './controllers/User';
 
 let app = express();
 
@@ -18,7 +19,11 @@ app.get('/*', (req, res) => {
     </StaticRouter>
   );
   let _helmet = Helmet.renderStatic();
-  res.send(jsxToHtml(_markup, _helmet));
+  // retrieve user data depend on cookies sended
+  let user = new User();
+  user.getUserData(req.cookies._auth)
+    .then(userData => res.send(jsxToHtml(_markup, _helmet, { user: userData, })))
+    .catch(() => res.send(jsxToHtml(_markup, _helmet, { user: {}, })));
 });
 
 app.listen(3000, () => {
