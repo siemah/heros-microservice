@@ -28,6 +28,18 @@ const Books = ({ staticContext}) => {
       <SEO title='Find any kind of books - Booksapp' metas={metas} />
       <h1>Books list </h1>
       <ul>
+        {
+          books.data.books && books.data.books.map(book => (
+            <li key={book._id}>
+              <NavLink to={`/book/${book._id}`}>
+                <article>
+                  <h2>{book.title}</h2>
+                  <p>{book.description}</p>
+                </article>
+              </NavLink>
+            </li>
+          ))
+        }
       </ul>
     </div>
   )
