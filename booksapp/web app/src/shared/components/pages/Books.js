@@ -1,9 +1,10 @@
-import React, { useState, } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { NavLink, } from 'react-router-dom';
 import { getDataFromWindowOrContext } from '../../utils/data';
 import SEO from '../widgets/SEO';
+import endpoints from '../../config/endpoints';
 
-const Books = ({ staticContext}) => {
+const Books = ({ staticContext, fetchInitialData }) => {
   // get the books data fetched from server
   let _books = getDataFromWindowOrContext('books', staticContext);
   // update state depend on data fetched from servers
@@ -22,11 +23,30 @@ const Books = ({ staticContext}) => {
       content: 'summary'
     }
   ];
-  
+  // load data from client side
+  useEffect(() => {
+    let _isMount = true;
+    _isMount && !books.data.books && setBooks({ ...books, loading: true, });
+    !books.data.books && fetchInitialData(endpoints.booksList)
+      .then(booksList => {
+        _isMount && setBooks({ ...books, data: booksList, loading: false, });
+      })
+      .catch(e => {
+        console.log(e);
+        _isMount && setBooks({ ...books, loading: false, message: 'Something went wrong, try after moment' });
+      })
+    return () => {
+      _isMount = false;
+    };
+  }, []);
+
   return (
     <div>
       <SEO title='Find any kind of books - Booksapp' metas={metas} />
       <h1>Books list </h1>
+      {
+        books.loading && <h4>Loading .. {books.loading}</h4>
+      }
       <ul>
         {
           books.data.books && books.data.books.map(book => (
