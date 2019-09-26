@@ -22,7 +22,7 @@ app.get('/*', (req, res) => {
   ])
     .then(([userData, initialData = []]) => {
       let _render = jsxToHtml(req.url, { user: userData, data: initialData }, { user: userData, data: initialData })
-      console.log('render', typeof _render=== 'string')
+
       if (typeof _render === 'string')
         res.send(_render);
       else
