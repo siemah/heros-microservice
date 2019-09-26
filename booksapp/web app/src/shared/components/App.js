@@ -8,15 +8,24 @@ import HeaderMenu from './widgets/HeaderMenu';
 import { AuthProvider, authContextDefaultValue } from './context/auth';
 
 const MainApp = (props) => {
+  // retrieve user data from server or client
+  let _userData;
+  if(__isBrowser__){
+    let { user } = window.__INITIAL_DATA__ || authContextDefaultValue;
+    _userData = user;
+    delete window.__INITIAL_DATA__;
+  } else {
+    _userData = props.staticContext.user;
+  }
   // authentication state of user
-  const [auth, setAuth] = useState(authContextDefaultValue);
+  const [auth, setAuth] = useState(_userData);
   // main route include guest & private routes
   const _mainRoutes = routes.map(({ path, component: C, exact, mode = 'none', ...rest }) => {
     switch (mode) {
       case 'private':
-        return <PrivateRoute key={path} {...rest} exact={exact} path={path} component={C} />
+        return <PrivateRoute isAthenticated={!!auth.email} key={path} {...rest} exact={exact} path={path} component={C} />
       case 'guest':
-        return <GuestRoute key={path} {...rest} exact={exact} path={path} component={C} />
+        return <GuestRoute isAthenticated={!!auth.email} key={path} {...rest} exact={exact} path={path} component={C} />
       default:
         return <Route key={path} exact={exact} path={path} {...rest} render={props => <C {...rest} {...props} />} />
     }
