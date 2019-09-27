@@ -28,7 +28,14 @@ app.get('/*', (req, res) => {
       else
         res.redirect(_render.redirectTo)
     })
-    .catch(() => res.send(jsxToHtml(req.url, { user: {}, data: [] }, { user: {}, data: [] })));
+    .catch(() => {
+      let _render = jsxToHtml(req.url, { user: {}, data: [] }, { user: {}, data: [] });
+
+      if (typeof _render === 'string')
+        res.send(_render);
+      else
+        res.redirect(_render.redirectTo)
+    });
 });
 
 app.listen(3000, () => {
