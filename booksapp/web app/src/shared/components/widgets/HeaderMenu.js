@@ -12,15 +12,23 @@ const HeaderMenu = () => {
   return (
     <nav>
       <ul>
-        <li>
-          <NavLink to={'/login'}>
           {
             !!_authContext.user.fullname 
-              ? _authContext.user.fullname
-              : 'Login'
+              ? (
+                <React.Fragment>
+                <li>
+                  <NavLink to='/profile'>{_authContext.user.fullname}</NavLink>
+                </li>
+                <li><a href='/auth/logout'>Logout</a></li>
+                </React.Fragment>
+              )
+              : (
+                <li>
+                  <NavLink to={'/login'}>Login</NavLink>
+                </li>
+              )
+        
           }
-          </NavLink>
-        </li>
         { linksList }
       </ul>
     </nav>
