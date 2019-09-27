@@ -14,7 +14,7 @@ authRouter.post(
       postLogin(endpoints.login, { email, password })
         .then(_res => {
           if(_res.status === 200) 
-            res.cookie('_auth', _res.user.token);
+            res.cookie('_auth', _res.user.token, { expires: new Date(Date.now() + 1000 * 3600 * 7) , httpOnly: true, });
           res.status(_res.status).json(_res);
         })
         .catch(error => {
@@ -23,5 +23,13 @@ authRouter.post(
     }
   }
 );
+
+authRouter.get(
+  '/auth/logout',
+  (req, res) => {
+    res.cookie('_auth', null,  { expires: new Date(Date.now() - 900000) });
+    res.redirect('/login');
+  }
+)
 
 export default authRouter;
