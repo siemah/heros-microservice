@@ -6,7 +6,7 @@ import AuthContext from '../context/auth';
 const HeaderMenu = () => {
   const _authContext = React.useContext(AuthContext);
   const linksList = routes.map(({path, name}) => (
-    !path.includes('login') &&
+    !path.includes('login') && name &&
     <li key={path}><NavLink to={path}>{name}</NavLink></li>
   ));
   return (
