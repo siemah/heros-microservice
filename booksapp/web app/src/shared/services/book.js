@@ -15,11 +15,11 @@ export const fetchBooks = (book, opts={}) => {
   return fetch(encodedURI, opts)
     .then((data) => data.json())
     .then((books) => {
+      if( books.message) throw new Error(books.message);
       if(!!book) return books 
       return books.books
     })
     .catch((error) => {
-      console.warn(error)
-      return null
+      throw new Error(error.message)
     });
 }
