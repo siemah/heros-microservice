@@ -13,7 +13,8 @@ import App from '../../shared/components/App';
  * @return string which is html tags or 
  *  object with redirecTo prop in case detecte redirection like private routes 
  */
-export const jsxToHtml = (location, context, data) => {
+export const jsxToHtml = (location, data) => {
+  let context = data;
   let _markup = renderToString(
     <StaticRouter location={location} context={context}>
       <App />
