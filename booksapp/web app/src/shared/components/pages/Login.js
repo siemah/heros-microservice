@@ -34,7 +34,7 @@ const Login = ({ postLogin, }) => {
         else if ( res.user ) {
           setLoginstate({ loading: false, message: null, });
           // update global state if its context or ..
-          _auth.setAuth({ email: res.user.email, fullname: res.user.fullname, });
+          _auth.setAuth({ email: res.user.email, fullname: res.user.fullname, token: res.user.token, });
         } 
         else 
           setLoginstate({ loading: false, message: 'Something went wrong, try again', });
