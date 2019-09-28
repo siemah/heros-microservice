@@ -51,7 +51,7 @@ const Books = ({ staticContext, fetchInitialData }) => {
         {
           books.data.books && books.data.books.map(book => (
             <li key={book._id}>
-              <NavLink to={`/book/${book._id}`}>
+              <NavLink to={{pathname: `/book/${book._id}`, data: book, }}>
                 <article>
                   <h2>{book.title}</h2>
                   <p>{book.description}</p>
