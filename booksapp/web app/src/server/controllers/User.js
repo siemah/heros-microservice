@@ -18,8 +18,8 @@ class User {
         Authorization: `JWT ${token}`,
       }
       postLogin(endpoints.tokenValidation, {}, _headers)
-        .then( ({email, fullname}) => {
-          resolve({ email, fullname });
+        .then( ({email, fullname, }) => {
+          resolve({ email, fullname, token, });
         })
         .catch( err => {
           reject({});
