@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useContext, } from 'react';
+import { useParams, useLocation, } from 'react-router-dom'
 import { getDataFromWindowOrContext } from '../../utils/data';
 import SEO from '../widgets/SEO';
 import endpoints from '../../config/endpoints';
 import AuthContext from '../context/auth';
 
-const Book = ({ staticContext, fetchInitialData, match }) => {
+const Book = ({ staticContext, fetchInitialData, }) => {
+  let { id } = useParams();
+  let { data } = useLocation();
+  console.log(data)
   const _authContext = useContext(AuthContext);
   let book = getDataFromWindowOrContext(null, staticContext);
   const [bookDetails, setBookDetails] = useState({
@@ -14,9 +18,7 @@ const Book = ({ staticContext, fetchInitialData, match }) => {
   });
 
   useEffect(() => {
-    console.log('fetching..')
     const _getData = async () => {
-      let { id } = match.params;
       let headers = {
         Authorization: `JWT ${_authContext.user.token}`,
       };
@@ -35,20 +37,21 @@ const Book = ({ staticContext, fetchInitialData, match }) => {
   }, [])
 
   return (
-    <div itemScope itemType='https://schema.org/Book' className={`book book-${'bookDetails.book._id'}`}>
-      <SEO title={`Book page`} />
+    <article itemScope itemType='https://schema.org/Book' className={`book book-${'bookDetails.book._id'}`}>
+      <SEO title={`${bookDetails.data.title || data.title}`} />
       {bookDetails.loading && <h4>Loading ..</h4>}
       {bookDetails.message && <h4><mark>{bookDetails.message}</mark></h4>}
-      {
-        bookDetails.data.title && (
-          <article>
-            <h1 itemProp='name'>{bookDetails.data.title}</h1>
-            <h4 itemProp='isbn'>{bookDetails.data.isbn}</h4>
-            <p itemProp='description'>{bookDetails.data.description}</p>
-          </article>
-        )
-      }
-    </div>
+      <h1 itemProp='name'>{bookDetails.data.title || data.title}</h1>
+      <h2>
+        ISBN: 
+        {
+          bookDetails.data.title
+            ? (<span itemProp='isbn'>{` ` + bookDetails.data.isbn}</span>)
+            : ' Loading ..'
+        }
+      </h2>
+      <p itemProp='description'>{bookDetails.data.description || data.description}</p>
+    </article>
   )
 }
 
