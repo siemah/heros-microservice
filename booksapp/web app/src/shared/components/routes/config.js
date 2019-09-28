@@ -29,7 +29,7 @@ const routes = [
     },
   },
   {
-    path: '/book',
+    path: '/book/:id',
     mode: 'private',
     component: Book,
     fetchInitialData: (path=null, opts) => {
