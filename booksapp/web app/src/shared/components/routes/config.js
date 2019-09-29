@@ -1,9 +1,10 @@
 import Home from '../pages/Home';
 import Login from '../pages/Login';
-import { postLogin, } from '../../services/auth'
+import { postLogin, createAccount, } from '../../services/auth'
 import Books from '../pages/Books';
 import { fetchBooks } from '../../services/book';
 import Book from '../pages/Book';
+import Register from '../pages/Register';
 
 const routes = [
   {
@@ -15,9 +16,14 @@ const routes = [
   {
     path: '/login',
     mode: 'guest',
-    name: 'Login',
     component: Login,
     postLogin: postLogin
+  },
+  {
+    path: '/register',
+    mode: 'guest',
+    component: Register,
+    createAccount: postLogin
   },
   {
     path: '/books',
