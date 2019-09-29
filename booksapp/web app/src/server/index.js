@@ -29,8 +29,8 @@ app.get('/*', (req, res) => {
       else
         res.redirect(_render.redirectTo)
     })
-    .catch(() => {
-      let _render = jsxToHtml(req.url, { user: null, data: null });
+    .catch((e) => {
+      let _render = jsxToHtml(req.url, { user: [], data: [] });
 
       if (typeof _render === 'string')
         res.send(_render);
