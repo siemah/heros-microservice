@@ -5,7 +5,7 @@ import SEO from '../widgets/SEO';
 import endpoints from '../../config/endpoints';
 import AuthContext from '../context/auth';
 
-const Book = ({ staticContext, fetchInitialData, }) => {
+const Book = ({ staticContext, fetchInitialData, postOrder }) => {
   let { id } = useParams();
   let { data } = useLocation();
   const _authContext = useContext(AuthContext);
@@ -15,6 +15,14 @@ const Book = ({ staticContext, fetchInitialData, }) => {
     loading: false,
     message: null,
   });
+
+  const _onOrder = () => {
+    console.log(_authContext.user.token)
+    postOrder({
+      book: bookDetails.data._id,
+      isCanceled: false,
+    }, _authContext.user.token);
+  }
 
   useEffect(() => {
     const _getData = async () => {
@@ -50,6 +58,7 @@ const Book = ({ staticContext, fetchInitialData, }) => {
         }
       </h2>
       <p itemProp='description'>{bookDetails.data.description || data.description}</p>
+      <button onClick={_onOrder} >Order Book</button>
     </article>
   )
 }
