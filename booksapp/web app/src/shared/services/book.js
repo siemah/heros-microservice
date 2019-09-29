@@ -23,3 +23,23 @@ export const fetchBooks = (book, opts={}) => {
       throw new Error(error.message)
     });
 }
+
+export const postOrder = async (order, token) => {
+  console.log('order', order)
+  try {
+    let res = await fetch(
+      endpoints.order, 
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${token}`,
+        },
+        body: JSON.stringify(order),
+      });
+    let data = await res.json();
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
