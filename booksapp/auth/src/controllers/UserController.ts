@@ -10,7 +10,7 @@ import { encodeJWTToken, passwordHash, genSalt, passwordVerify, decodeJWTToken }
  * @see mongoose doc
  */
 class UserController {
-    
+
     /**
      * handle route of creating a new user account
      * @param req Request
@@ -20,7 +20,7 @@ class UserController {
     async createUserAccount(req: Request, res: Response): Promise<any>{
         let body: UserObject = req.body;
         // some validation of data and handle errors
-        if(!body) res.status(400).json({message: "Try to send some required data"});
+        if(!body) res.status(400).json({status: 'NO', message: "Try to send some required data"});
         try {
             let salt: string = await genSalt(64);
             let password: string = await passwordHash(body.password, salt);
@@ -30,9 +30,17 @@ class UserController {
                 salt,
                 roles: ACCOUNTROLES.CUSTOMER 
             } as UserDocument);
-            let isCreated = await newUserAccount.save();
-            res.status( isCreated? 201 : 400).json({
-                message: isCreated? 'User account created with success' : 'Something went wrong',
+            let { _id, email, roles, fname, lname, } = await newUserAccount.save();
+            let token:string = await encodeJWTToken({ email, fullname: `${fname} ${lname}`, id: _id, roles }, process.env.TOKEN_SECRET as string)
+            res.status( _id? 201 : 400).json({
+                status: _id? 'OK' : 'NO',
+                message: _id? 'User account created with success' : 'Something went wrong',
+                user:{
+                    token,
+                    id: _id,
+                    fullname: `${fname} ${lname}`,
+                    email,
+                },
             });
         } catch (error) {
             console.log((error))
