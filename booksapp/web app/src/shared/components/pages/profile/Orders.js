@@ -21,15 +21,15 @@ const Orders = ({ staticContext, fetchInitialData, }) => {
         }
       }
       try {
-        console.log(` fetch ${!orders.orders && 'ok'}`)
+        _isMount && setOrders({...orders, loading: true}) 
         let _data = await fetchInitialData(null, opts);
         if( _data.orders )
-          _isMount && setOrders({...orders, orders: _data.orders}) 
+          _isMount && setOrders({...orders, orders: _data.orders, loading: false}) 
         else
-          _isMount && setOrders({...orders, message: _data.message}) 
+          _isMount && setOrders({...orders, message: _data.message, loading: false}) 
         
       } catch (error) {
-        _isMount && setOrders({...orders, message: 'Something went wrong'}) 
+        _isMount && setOrders({...orders, message: 'Something went wrong', loading: false}) 
       }
     }
     !orders.orders && _fetchData();
@@ -45,6 +45,7 @@ const Orders = ({ staticContext, fetchInitialData, }) => {
       {orders.message && <h4><mark>{orders.message}</mark></h4>}
       <nav>
         <ul>
+          {orders.loading && <h4>Loading ..</h4>}
           {
             orders.orders && orders.orders.map( ({ _id, book, createdAt, dueDate, isCanceled}) => (
               <li key={_id}>
