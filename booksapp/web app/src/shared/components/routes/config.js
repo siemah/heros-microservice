@@ -2,7 +2,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import { postLogin, createAccount, } from '../../services/auth'
 import Books from '../pages/Books';
-import { fetchBooks } from '../../services/book';
+import { fetchBooks, postOrder } from '../../services/book';
 import Book from '../pages/Book';
 import Register from '../pages/Register';
 
@@ -38,6 +38,7 @@ const routes = [
     path: '/book/:id',
     mode: 'private',
     component: Book,
+    postOrder,
     fetchInitialData: (path=null, opts) => {
       return fetchBooks(path.split('/').pop(), opts)
     },
