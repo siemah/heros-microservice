@@ -23,6 +23,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(helmet());
 app.use(morgan("dev"));
+app.use((req: Request, res: Response, next: NextFunction,) => {
+  res.set('Access-Control-Origin-Methods', 'GET, OPTIONS, POST');
+  res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.set('Access-Control-Origin-Type', '*');
+  res.set('Access-Control-Allow-Headers', '*');
+  next();
+})
 // handle a routes
 app.get('/orders', isAdmin, OrderController.getAllOrders);
 app.post('/order/', isCustomer, OrderController.addOrder);
