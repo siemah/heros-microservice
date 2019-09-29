@@ -11,6 +11,22 @@ import { verifyToken } from "../utils/tools";
  */
 class OrdersController {
 
+    async getOrders(id?: string|null): Promise<any[]>  {
+        return new Promise(async (resolve, reject) => {
+            let orders: Array<OrderDocument>;
+            let _condiction = id ? { customer: id } : {}
+            try {
+                orders = await OrderModel.find(_condiction);
+                if (orders) 
+                    resolve(orders);
+                else 
+                    reject({message: 'Something went wrong try again'})
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     /**
      * retrieve all orders 
      * @param req Request
@@ -19,9 +35,28 @@ class OrdersController {
      */
     async getAllOrders(req: Request, res: Response): Promise<any> {
         let orders: Array<OrderDocument>;
-
         try {
-            orders = await OrderModel.find({});
+            orders = await this.getOrders();
+            res.status(200).json({
+                length: orders.length,
+                orders,
+            })
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    /**
+     * retrieve all orders 
+     * @param req Request
+     * @param res Response
+     * @return Promise<any> 
+     */
+    getUserOrders = async (req: Request, res: Response): Promise<any> => {
+        let orders: Array<OrderDocument>;
+        try {
+            let _jwt = await verifyToken(req.headers);
+            orders = await this.getOrders(_jwt.results.id);
             res.status(200).json({
                 length: orders.length,
                 orders,
