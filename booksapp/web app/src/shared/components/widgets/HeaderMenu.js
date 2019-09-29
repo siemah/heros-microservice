@@ -23,9 +23,14 @@ const HeaderMenu = () => {
                 </React.Fragment>
               )
               : (
+                <React.Fragment>
                 <li>
                   <NavLink to={'/login'}>Login</NavLink>
                 </li>
+                <li>
+                  <NavLink to={'/register'}>Register</NavLink>
+                </li>
+                </React.Fragment>
               )
         
           }
