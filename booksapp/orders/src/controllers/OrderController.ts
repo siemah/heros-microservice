@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import OrderModel, { OrderDocument, OrderParams } from "../models/OrderModel";
+import { verifyToken } from "../utils/tools";
 
 /**
  * handle all request about orders
@@ -37,14 +38,15 @@ class OrdersController {
      * @return Promise<any> 
      */
     async addOrder(req: Request, res: Response): Promise<any> {
-        let orderParams: OrderParams = req.body;
-        let newOrder: OrderDocument = new OrderModel(orderParams);
-        console.log(orderParams)
         // here dont forget to verify if all params required are in body object some validation
         try {
-            await newOrder.save();
+            let _jwt = await verifyToken(req.headers);
+            let orderParams: OrderParams = {...req.body, customer: _jwt.results.id};
+            let newOrder: OrderDocument = new OrderModel(orderParams);
+            let order = await newOrder.save();
             res.status(200).json({
-                message: "New order added succusfully"
+                message: "New order added succusfully",
+                order,
             })
         } catch (error) {
             throw new Error(error);
