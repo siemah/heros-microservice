@@ -32,6 +32,7 @@ app.use((req: Request, res: Response, next: NextFunction,) => {
 })
 // handle a routes
 app.get('/orders', isAdmin, OrderController.getAllOrders);
+app.get('/orders/me', isCustomer, OrderController.getUserOrders);
 app.post('/order/', isCustomer, OrderController.addOrder);
 app.get('/order/:orderId', OrderController.getOrder);// we must check if is a user who add the order
 app.delete('/order/:orderId', isAdmin, OrderController.removeOrder);
