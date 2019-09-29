@@ -1,7 +1,33 @@
-import { postLogin } from "../../shared/services/auth";
+import { postLogin as postRequst } from "../../shared/services/auth";
 import endpoints from "../config/endpoints";
 
 class User {
+
+  constructor(fname=null, lname=null, email=null, password=null) {
+    this.fname = fname;
+    this.lname = lname;
+    this.email = email;
+    this.password = password;
+  }
+
+  create() {
+    return new Promise((resolve, reject) => {
+      let { email, password, lname, fname, } = this;
+      if(!this.email || !this.password) 
+        reject(`${!this.email ? 'Email' : 'Password'} field is required`);
+      
+      postRequst(endpoints.register, { email, password, lname, fname, })
+        .then(_res => {
+          if (_res.status === 'NO')
+            reject(_res);
+          else if (_res.status === 'OK') 
+            resolve(_res);
+        })
+        .catch(({ message }) => {
+          reject({ message });
+        })
+    })
+  }
 
   /**
    * retrieve user data from auth microservice
@@ -17,7 +43,7 @@ class User {
       const _headers = {
         Authorization: `JWT ${token}`,
       }
-      postLogin(endpoints.tokenValidation, {}, _headers)
+      postRequst(endpoints.tokenValidation, {}, _headers)
         .then( ({email, fullname, }) => {
           resolve({ email, fullname, token, });
         })
