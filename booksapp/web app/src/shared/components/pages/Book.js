@@ -8,7 +8,6 @@ import AuthContext from '../context/auth';
 const Book = ({ staticContext, fetchInitialData, }) => {
   let { id } = useParams();
   let { data } = useLocation();
-  console.log(data)
   const _authContext = useContext(AuthContext);
   let book = getDataFromWindowOrContext(null, staticContext);
   const [bookDetails, setBookDetails] = useState({
