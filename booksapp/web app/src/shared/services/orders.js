@@ -23,7 +23,7 @@ export const postOrder = async (order, token) => {
   }
 }
 
-export const fetchOrder = async (location, opts={}) => {
+export const fetchOrders = async (location, opts={}) => {
   return new Promise(async (resolve, reject) => {
     try {
       let _res = await fetch(endpoints.orders, opts);
