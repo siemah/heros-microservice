@@ -9,6 +9,7 @@ const Orders = ({ staticContext, fetchInitialData, }) => {
   const [orders, setOrders] = useState({
     orders: _orders.orders,
     loading: false,
+    message: null,
   });
 
   useEffect(() => {
@@ -24,6 +25,9 @@ const Orders = ({ staticContext, fetchInitialData, }) => {
         let _data = await fetchInitialData(null, opts);
         if( _data.orders )
           _isMount && setOrders({...orders, orders: _data.orders}) 
+        else
+          _isMount && setOrders({...orders, message: _data.message}) 
+        
       } catch (error) {
         _isMount && setOrders({...orders, message: 'Something went wrong'}) 
       }
@@ -38,6 +42,7 @@ const Orders = ({ staticContext, fetchInitialData, }) => {
     <div>
       <SEO title={`${_authContext.user.fullname} Orders`} />
       <h1>My Orders</h1>
+      {orders.message && <h4><mark>{orders.message}</mark></h4>}
       <nav>
         <ul>
           {
