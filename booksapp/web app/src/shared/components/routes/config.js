@@ -1,8 +1,9 @@
 import Home from '../pages/Home';
 import Login from '../pages/Login';
-import { postLogin, createAccount, } from '../../services/auth'
+import { postLogin, } from '../../services/auth'
 import Books from '../pages/Books';
-import { fetchBooks, postOrder } from '../../services/book';
+import { fetchBooks } from '../../services/book';
+import { postOrder, fetchOrder } from '../../services/orders';
 import Book from '../pages/Book';
 import Register from '../pages/Register';
 import Orders from '../pages/profile/Orders';
@@ -50,7 +51,7 @@ const routes = [
     component: Orders,
     // cancelOrder,
     fetchInitialData: (path=null, opts) => {
-      // return fetchBooks(path.split('/').pop(), opts)
+      return fetchOrder(path.split('/').pop(), opts)
     },
   },
 ];
