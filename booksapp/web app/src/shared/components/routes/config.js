@@ -5,6 +5,7 @@ import Books from '../pages/Books';
 import { fetchBooks, postOrder } from '../../services/book';
 import Book from '../pages/Book';
 import Register from '../pages/Register';
+import Orders from '../pages/profile/Orders';
 
 const routes = [
   {
@@ -41,6 +42,15 @@ const routes = [
     postOrder,
     fetchInitialData: (path=null, opts) => {
       return fetchBooks(path.split('/').pop(), opts)
+    },
+  },
+  {
+    path: '/profile/orders',
+    mode: 'private',
+    component: Orders,
+    // cancelOrder,
+    fetchInitialData: (path=null, opts) => {
+      // return fetchBooks(path.split('/').pop(), opts)
     },
   },
 ];
