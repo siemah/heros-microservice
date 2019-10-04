@@ -10,7 +10,7 @@ import { isAdmin, isCustomer } from './config/middleware';
 let app: Application = express();
 // establish a connexion to mongoDB
 mongoose.connect(
-  "mongodb+srv://root:root@cluster0-igjak.mongodb.net/orders?retryWrites=true&w=majority", //"mongodb://localhost:27017/customersdb",
+  "mongodb+srv://root:root@booksapp-yag4y.mongodb.net/orders?retryWrites=true&w=majority", //"mongodb://localhost:27017/customersdb",
   { useNewUrlParser: true },
   (err: any) => {
     if (err) throw new Error(err);
