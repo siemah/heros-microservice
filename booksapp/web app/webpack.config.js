@@ -1,12 +1,11 @@
 var path = require('path')
 var webpack = require('webpack')
 var nodeExternals = require('webpack-node-externals')
-require("babel-core/register");
-require("babel-polyfill");
+require("@babel/polyfill");
 
 var browserConfig = {
   mode: 'development',
-  entry: ['babel-polyfill', './src/client/index.js'],
+  entry: ['@babel/polyfill', './src/client/index.js'],
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js',
@@ -26,7 +25,7 @@ var browserConfig = {
 
 var serverConfig = {
   mode: 'development',
-  entry: ['babel-polyfill', './src/server/index.js'],
+  entry: ['@babel/polyfill', './src/server/index.js'],
   target: 'node',
   externals: [nodeExternals()],
   output: {
