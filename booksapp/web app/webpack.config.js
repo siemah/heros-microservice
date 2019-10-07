@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 var nodeExternals = require('webpack-node-externals')
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 require("@babel/polyfill");
 
 var browserConfig = {
@@ -14,12 +15,25 @@ var browserConfig = {
   module: {
     rules: [
       { test: /\.(js)$/, use: 'babel-loader' },
+      {
+        test: /\.css$/,
+        use: [
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          'postcss-loader'
+        ]
+      },
     ]
   },
   plugins: [
     new webpack.DefinePlugin({
       __isBrowser__: "true"
-    })
+    }),
   ]
 }
 
@@ -35,7 +49,20 @@ var serverConfig = {
   },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' }
+      { test: /\.(js)$/, use: 'babel-loader' },
+      {
+        test: /\.css$/,
+        use: [
+          'isomorphic-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          'postcss-loader'
+        ]
+      }
     ]
   },
   plugins: [
