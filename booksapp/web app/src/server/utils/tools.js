@@ -3,6 +3,7 @@ import React from 'react';
 import { renderToString, } from 'react-dom/server';
 import { StaticRouter, } from 'react-router-dom';
 import Helmet from 'react-helmet';
+import StyleContext from 'isomorphic-style-loader/StyleContext'
 import App from '../../shared/components/App';
 
 /**
@@ -15,9 +16,13 @@ import App from '../../shared/components/App';
  */
 export const jsxToHtml = (location, data) => {
   let context = data;
+  const css = new Set() // CSS for all rendered React components
+  const insertCss = (...styles) => styles.forEach(style =>  css.add(style._getCss()))
   let _markup = renderToString(
     <StaticRouter location={location} context={context}>
-      <App />
+      <StyleContext.Provider value={{ insertCss }}>
+        <App />
+      </StyleContext.Provider>
     </StaticRouter>
   );
   if(context.url) return {
@@ -32,6 +37,7 @@ export const jsxToHtml = (location, data) => {
         ${_helmet.title.toString()}
         ${_helmet.meta.toString()}
         ${_helmet.link.toString()}
+        <style>${[...css].join('')}</style>
       </head>
       <body>
         <div id="app">${_markup}</div>
