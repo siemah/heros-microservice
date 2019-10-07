@@ -51,5 +51,12 @@
       "@babel/plugin-proposal-object-rest-spread",
       "@babel/plugin-syntax-dynamic-import"
     ]
+  },
+  "postcss": {
+    "parser": false,
+    "map": false,
+    "plugins": {
+      "postcss-plugin": {}
+    }
   }
 }
