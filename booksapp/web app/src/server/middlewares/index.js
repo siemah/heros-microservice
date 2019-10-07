@@ -1,5 +1,6 @@
 import authRouter from "../routes/auth";
-import { cookiesParser } from './cookies'
+import { cookiesParser } from './cookies';
+import compression from 'compression';
 
 export const configMiddlewares = (express, app) => {
 
@@ -7,6 +8,7 @@ export const configMiddlewares = (express, app) => {
   app.use(express.static('public'));
 
   // other moddlewares config and init
+  app.use(compression())
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   // parse cookies
