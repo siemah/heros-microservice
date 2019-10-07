@@ -1,8 +1,11 @@
 import React, { useState, useContext, } from 'react';
 import SEO from '../widgets/SEO';
 import AuthContext from '../context/auth';
+import useStyles from 'isomorphic-style-loader/useStyles';
+import style from '../assets/css/login.css';
 
 const Login = ({ postLogin, }) => {
+  useStyles(style);
   const _auth = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email: null,

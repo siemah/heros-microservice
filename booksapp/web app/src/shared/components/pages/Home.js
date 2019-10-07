@@ -1,7 +1,13 @@
 import React from 'react';
 import SEO from '../widgets/SEO';
+import useStyles from 'isomorphic-style-loader/useStyles'
+import style from '../assets/css/home.css';
+import useRemoveCssStyle from '../hooks/style';
+
 
 const Home = () => {
+  useStyles(style);
+  useRemoveCssStyle(style);
   const metas = [
     {
       name: 'description',
@@ -11,11 +17,11 @@ const Home = () => {
       'og:title': 'Find any kind of books',
       content: 'Find any kind books at booksapp'
     }
-  ]
+  ];
   return (
     <div>
       <SEO title='Find any kind of books - Booksapp' metas={metas} />
-      <h1>Home Page</h1>
+      <h1 className='title'>Home Page</h1>
     </div>
   )
 }
