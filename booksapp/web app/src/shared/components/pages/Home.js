@@ -3,7 +3,7 @@ import SEO from '../widgets/SEO';
 import useStyles from 'isomorphic-style-loader/useStyles'
 import style from '../assets/css/home.css';
 import useRemoveCssStyle from '../hooks/style';
-
+import img from '../assets/images/veggie-beef-min.jpg';
 
 const Home = () => {
   useStyles(style);
@@ -22,6 +22,7 @@ const Home = () => {
     <div>
       <SEO title='Find any kind of books - Booksapp' metas={metas} />
       <h1 className='title'>Home Page</h1>
+      <img src={img}  />
     </div>
   )
 }
