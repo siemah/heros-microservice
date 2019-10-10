@@ -41,7 +41,7 @@ export const jsxToHtml = (location, data) => {
       </head>
       <body>
         <div id="app">${_markup}</div>
-        <script src="/bundle.js" defer></script>
+        <script src="/main.js" defer></script>
         <script>window.__USER_DATA__ = ${serialize(data.user)}</script>
         <script>window.__INITIAL_DATA__ = ${serialize(data.data)}</script>
       </body>

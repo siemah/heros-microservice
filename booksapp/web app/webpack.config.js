@@ -1,20 +1,31 @@
 var path = require('path')
 var webpack = require('webpack')
+var extend = require('extend')
 var nodeExternals = require('webpack-node-externals')
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 require("@babel/polyfill");
 
 const DEBUG = 'development' ? true : false;
-
+const config = {
+  context: path.resolve(__dirname, './src'),
+  output: {
+    path: path.resolve(__dirname, './public'),
+    publicPath: '/',
+    sourcePrefix: '  ',
+  },
+}
 
 var browserConfig = {
   mode: 'development',
-  entry: ['@babel/polyfill', './src/client/index.js'],
+  entry: ['@babel/polyfill', './client/index.js'],
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
+    filename: DEBUG ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
+    chunkFilename: DEBUG ? '[name].[id].js?[chunkhash]' : '[name].[id].[chunkhash].js',
   },
+
+  target: 'web',
+
   module: {
     rules: [
       { test: /\.(js)$/, use: 'babel-loader' },
@@ -50,14 +61,16 @@ var browserConfig = {
 
 var serverConfig = {
   mode: 'development',
-  entry: ['@babel/polyfill', './src/server/index.js'],
-  target: 'node',
+  entry: ['@babel/polyfill', './server/index.js'],
   externals: [nodeExternals()],
   output: {
-    path: __dirname,
-    filename: 'server.js',
-    publicPath: '/'
+    filename: '../server.js',
+    libraryTarget: 'commonjs2',
+    publicPath: '/',
+    // path: '/build/',
   },
+
+  target: 'node',
   module: {
     rules: [
       { test: /\.(js)$/, use: 'babel-loader' },
@@ -98,4 +111,7 @@ var serverConfig = {
   ]
 }
 
-module.exports = [browserConfig, serverConfig]
+module.exports = [
+  extend(true, {}, config, browserConfig), 
+  extend(true, {}, config, serverConfig)
+]
