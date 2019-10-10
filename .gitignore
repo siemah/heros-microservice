@@ -5,6 +5,8 @@ cinematic/node_modules/
 # web app files and folders
 booksapp/web app/server.js
 booksapp/web app/public/bundle.js
+booksapp/web app/build/
+booksapp/web app/public/
 
 # Logs
 logs
