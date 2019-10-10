@@ -4,6 +4,9 @@ var nodeExternals = require('webpack-node-externals')
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 require("@babel/polyfill");
 
+const DEBUG = 'development' ? true : false;
+
+
 var browserConfig = {
   mode: 'development',
   entry: ['@babel/polyfill', './src/client/index.js'],
@@ -27,6 +30,14 @@ var browserConfig = {
           },
           'postcss-loader'
         ]
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+        loader: 'url-loader',
+        query: {
+          name: '[name]-[hash].[ext]',
+          limit: 10000,
+        },
       },
     ]
   },
@@ -62,7 +73,22 @@ var serverConfig = {
           },
           'postcss-loader'
         ]
-      }
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
+        loader: 'url-loader',
+        query: {
+          name: '[name]-[hash].[ext]',
+          limit: 10000,
+        },
+      },
+      // {
+      //   test: /\.(eot|ttf|wav|mp3)$/,
+      //   loader: 'file-loader',
+      //   query: {
+      //     name: DEBUG ? '[name]-[hash].[ext]',
+      //   },
+      // },
     ]
   },
   plugins: [
