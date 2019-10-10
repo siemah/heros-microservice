@@ -2,15 +2,14 @@
   "name": "bookstore",
   "version": "1.0.0",
   "description": "web app for books using react universal app (server and client rendering)",
-  "main": "server.js",
+  "main": "build/app.js",
   "repository": "https://github.com/siemah/heros-microservice/tree/master/booksapp/web app",
   "author": "siemah",
   "license": "MIT",
   "scripts": {
     "dev": "webpack -w & nodemon server.js",
     "build": "webpack -p",
-    "start": "webpack -p && nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack -p && nodemon server.js"
   },
   "dependencies": {
     "compression": "^1.7.4",
@@ -34,6 +33,7 @@
     "@babel/preset-stage-0": "^7.0.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "extend": "^3.0.2",
     "file-loader": "^4.2.0",
     "isomorphic-style-loader": "^5.1.0",
     "mini-css-extract-plugin": "^0.8.0",
